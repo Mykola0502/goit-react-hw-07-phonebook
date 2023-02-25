@@ -16,7 +16,7 @@ export const ContactList = () => {
   const contacts = useSelector(selectContacts);
   const filter = useSelector(selectFilter);
 
-  console.log(contacts);
+  // console.log(contacts);
 
   const visibleContacts = getVisibleContacts(contacts, filter);
   // console.log(visibleContacts);
