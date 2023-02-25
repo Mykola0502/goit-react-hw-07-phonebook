@@ -3,17 +3,27 @@ import { Toaster } from 'react-hot-toast';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { fetchContacts } from 'redux/operations';
-import { selectContacts, selectFilter } from 'redux/selectors';
+import {
+  selectContacts,
+  selectIsLoading,
+  selectError,
+  selectFilter,
+} from 'redux/selectors';
 import { ContactForm } from 'components/ContactForm';
 import { ContactList } from 'components/ContactList';
 import { Filter } from 'components/Filter';
 
 import { Container, Title, SubTitle, ContactText } from './App.styled';
+import { Loader } from 'components/Loader';
 
 export const App = () => {
   const dispatch = useDispatch();
-  const { items, isLoading, error } = useSelector(selectContacts);
+  const items = useSelector(selectContacts);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
   const filter = useSelector(selectFilter);
+
+  // console.log(isLoading);
 
   useEffect(() => {
     dispatch(fetchContacts());
@@ -23,19 +33,20 @@ export const App = () => {
     <Container>
       <Toaster position="top-center" reverseOrder={false} />
       <Title>Phonebook</Title>
-      {/* <ContactForm /> */}
+      <ContactForm />
       <SubTitle>Contacts</SubTitle>
-      {isLoading && <p>Loading contacts...</p>}
+      {isLoading && !error && <Loader />}
       {error && <p>{error}</p>}
-      <p>{items.length && JSON.stringify(items, null, 2)}</p>
-      {items.length || filter ? (
+      {/* <p>{items.length && JSON.stringify(items, null, 2)}</p> */}
+      <ContactList />
+      {/* {items.length || filter ? (
         <>
-          {/* <Filter /> */}
-          {/* <ContactList /> */}
+          <Filter />
+          <ContactList />
         </>
       ) : (
         <ContactText>There are no phone numbers in Contacts!</ContactText>
-      )}
+      )} */}
     </Container>
   );
 };
