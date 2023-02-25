@@ -35,10 +35,19 @@ export const App = () => {
       <Title>Phonebook</Title>
       <ContactForm />
       <SubTitle>Contacts</SubTitle>
-      {isLoading && !error && <Loader />}
+      {/* {isLoading && !error && <Loader />} */}
       {error && <p>{error}</p>}
       {/* <p>{items.length && JSON.stringify(items, null, 2)}</p> */}
-      <ContactList />
+      {/* <ContactList /> */}
+      {items.length || filter ? (
+        <>
+          <Filter />
+          {isLoading && !error && <Loader />}
+          <ContactList />
+        </>
+      ) : (
+        <ContactText>There are no phone numbers in Contacts!</ContactText>
+      )}
       {/* {items.length || filter ? (
         <>
           <Filter />
